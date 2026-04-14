@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Style Narguille | Gerenciador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <section class="auth-panel" id="authPanel">
+        <div class="auth-card">
+          <div class="brand-mark">
+            <span class="brand-flame"></span>
+            <div>
+              <p class="brand-kicker">Adega e Tabacaria</p>
+              <h1>Style Narguille</h1>
+            </div>
+          </div>
+
+          <div class="auth-copy">
+            <h2 id="authTitle">Bem-vindo de volta</h2>
+            <p id="authSubtitle">Entre para acompanhar estoque, vendas, caixa e relatorios da loja.</p>
+          </div>
+
+          <form id="authForm" class="auth-form">
+            <label class="hidden" id="nameField">
+              <span>Nome</span>
+              <input type="text" id="nameInput" placeholder="Seu nome" />
+            </label>
+            <label>
+              <span>E-mail</span>
+              <input type="email" id="emailInput" placeholder="seu@email.com" required />
+            </label>
+            <label>
+              <span>Senha</span>
+              <input type="password" id="passwordInput" placeholder="******" required />
+            </label>
+            <button type="submit" class="primary-btn" id="authSubmit">Entrar</button>
+          </form>
+
+          <button type="button" class="ghost-link" id="authToggle">Nao tem conta? Cadastre-se</button>
+          <div class="auth-hint"><strong>Acesso rapido:</strong> admin@stylenarguille.com / 123456</div>
+          <p class="feedback" id="authFeedback"></p>
+        </div>
+      </section>
+
+      <section class="dashboard hidden" id="dashboard">
+        <button type="button" class="sidebar-toggle" id="sidebarToggleBtn" aria-label="Abrir menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <button type="button" class="sidebar-backdrop hidden" id="sidebarBackdrop" aria-label="Fechar menu"></button>
+        <aside class="sidebar">
+          <div class="sidebar-top">
+            <div class="brand-mark compact">
+              <span class="brand-flame"></span>
+              <div>
+                <p class="brand-kicker">Painel</p>
+                <h1>Style Narguille</h1>
+              </div>
+            </div>
+
+            <nav class="sidebar-nav">
+              <button class="nav-link active" data-view="overview">Visao geral</button>
+              <button class="nav-link" data-view="sales">Vendas e caixa</button>
+              <button class="nav-link" data-view="products">Produtos</button>
+              <button class="nav-link" data-view="suppliers" id="suppliersNavBtn">Fornecedores</button>
+              <button class="nav-link" data-view="movements">Movimentacoes</button>
+              <button class="nav-link" data-view="reports">Relatorios</button>
+              <button class="nav-link" data-view="users" id="usersNavBtn">Usuarios</button>
+            </nav>
+          </div>
+
+          <div class="sidebar-footer">
+            <div class="user-card">
+              <small>Usuario conectado</small>
+              <strong id="currentUserName">Administrador</strong>
+              <span class="user-role" id="currentUserRole">Admin</span>
+            </div>
+            <button class="secondary-btn full" id="logoutBtn">Sair</button>
+          </div>
+        </aside>
+
+        <main class="main-content">
+          <header class="hero-card">
+            <div>
+              <p class="eyebrow">Operacao da loja</p>
+              <h2>Estoque, vendas, caixa, relatorios e usuarios no mesmo painel.</h2>
+              <p id="heroDescription">Use o sistema para registrar a rotina da adega/tabacaria com dados salvos direto no Supabase.</p>
+            </div>
+            <div class="hero-badges">
+              <span>Venda rapida</span>
+              <span>Caixa diario</span>
+              <span>Relatorios e exportacao</span>
+            </div>
+          </header>
+
+          <section class="view active" id="overviewView">
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="content-grid">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Atencao</p>
+                    <h3>Produtos com estoque baixo</h3>
+                  </div>
+                </div>
+                <div id="lowStockList" class="list-stack"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Validade</p>
+                    <h3>Produtos com vencimento proximo</h3>
+                  </div>
+                </div>
+                <div id="expiryAlertList" class="list-stack"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Fluxo</p>
+                    <h3>Ultimas movimentacoes</h3>
+                  </div>
+                </div>
+                <div id="recentMovements" class="list-stack"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" id="salesView">
+            <div class="content-grid sales-layout">
+              <article class="panel">
+                <div class="panel-header wrap">
+                  <div>
+                    <p class="eyebrow">Caixa</p>
+                    <h3>Abertura e fechamento</h3>
+                  </div>
+                  <span class="status-badge inactive" id="cashStatusBadge">Caixa fechado</span>
+                </div>
+
+                <div id="cashSummaryCard" class="list-item"></div>
+
+                <form class="stack-form" id="cashOpenForm">
+                  <label>
+                    <span>Valor de abertura</span>
+                    <input type="number" id="cashOpeningInput" min="0" step="0.01" />
+                  </label>
+                  <label>
+                    <span>Senha do perfil</span>
+                    <input type="password" id="cashProfilePasswordInput" placeholder="Confirme sua senha para abrir o caixa" />
+                  </label>
+                  <label>
+                    <span>Observacao</span>
+                    <textarea id="cashOpenNoteInput" rows="3" placeholder="Ex: troco inicial"></textarea>
+                  </label>
+                  <button type="submit" class="primary-btn">Abrir caixa</button>
+                </form>
+
+                <form class="stack-form hidden" id="cashCloseForm">
+                  <label>
+                    <span>Valor contado no fechamento</span>
+                    <input type="number" id="cashClosingInput" min="0" step="0.01" />
+                  </label>
+                  <label>
+                    <span>Observacao</span>
+                    <textarea id="cashCloseNoteInput" rows="3" placeholder="Ex: diferenca conferida"></textarea>
+                  </label>
+                  <button type="submit" class="secondary-btn">Fechar caixa</button>
+                </form>
+
+                <div class="panel-divider"></div>
+
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Historico</p>
+                    <h3>Ultimos caixas</h3>
+                  </div>
+                </div>
+                <div id="cashHistory" class="list-stack"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Balcao</p>
+                    <h3>Registrar venda</h3>
+                  </div>
+                </div>
+
+                <form class="sale-builder" id="saleItemForm">
+                  <label>
+                    <span>Produto</span>
+                    <select id="saleProductInput"></select>
+                  </label>
+                  <label>
+                    <span>Quantidade</span>
+                    <input type="number" id="saleQuantityInput" min="1" value="1" />
+                  </label>
+                  <button type="submit" class="primary-btn">Adicionar item</button>
+                </form>
+
+                <div id="saleCartList" class="list-stack compact-list"></div>
+
+                <form class="stack-form" id="saleFinalizeForm">
+                  <label>
+                    <span>Canal da venda</span>
+                    <select id="saleChannelInput">
+                      <option value="fisica">Fisica</option>
+                      <option value="entrega">Entrega</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Forma de pagamento</span>
+                    <select id="salePaymentInput">
+                      <option value="dinheiro">Dinheiro</option>
+                      <option value="pix">Pix</option>
+                      <option value="cartao">Cartao</option>
+                    </select>
+                  </label>
+                  <div class="stack-form delivery-fields hidden" id="saleDeliveryFields">
+                    <label>
+                      <span>Cliente</span>
+                      <input type="text" id="saleCustomerInput" placeholder="Nome do cliente" />
+                    </label>
+                    <label>
+                      <span>Endereco de entrega</span>
+                      <textarea id="saleDeliveryAddressInput" rows="3" placeholder="Rua, numero, bairro"></textarea>
+                    </label>
+                    <label>
+                      <span>Taxa de entrega</span>
+                      <input type="number" id="saleDeliveryFeeInput" min="0" step="0.01" value="0" />
+                    </label>
+                  </div>
+                  <label>
+                    <span>Desconto</span>
+                    <input type="number" id="saleDiscountInput" min="0" step="0.01" value="0" />
+                  </label>
+                  <label>
+                    <span>Observacao</span>
+                    <textarea id="saleNoteInput" rows="3" placeholder="Ex: cliente fidelidade"></textarea>
+                  </label>
+                  <div id="saleTotals" class="totals-box"></div>
+                  <div class="form-actions">
+                    <button type="submit" class="primary-btn">Finalizar venda</button>
+                    <button type="button" class="secondary-btn" id="clearSaleBtn">Limpar venda</button>
+                  </div>
+                </form>
+
+                <div class="panel-divider"></div>
+
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Historico</p>
+                    <h3>Ultimas vendas</h3>
+                  </div>
+                </div>
+                <div id="salesHistory" class="list-stack"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" id="productsView">
+            <div class="panel">
+              <div class="panel-header wrap">
+                <div>
+                  <p class="eyebrow">Cadastro e consulta</p>
+                  <h3>Produtos</h3>
+                </div>
+                <div class="filters">
+                  <input type="search" id="searchInput" placeholder="Buscar produto..." />
+                  <select id="productSupplierFilter">
+                    <option value="">Todos os fornecedores</option>
+                  </select>
+                  <select id="statusFilter">
+                    <option value="todos">Todos os status</option>
+                    <option value="ativo">Ativos</option>
+                    <option value="baixo">Estoque baixo</option>
+                    <option value="vencendo">Validade proxima</option>
+                    <option value="vencido">Vencidos</option>
+                    <option value="inativo">Inativos</option>
+                  </select>
+                </div>
+              </div>
+
+              <form class="product-form" id="productForm">
+                <input type="hidden" id="productIdInput" />
+                <label><span>Nome do produto</span><input type="text" id="productNameInput" required /></label>
+                <label>
+                  <span>Categoria</span>
+                  <select id="productCategoryInput" required>
+                    <option value="">Selecione</option>
+                    <option value="Bebida">Bebida</option>
+                    <option value="Essencia">Essencia</option>
+                    <option value="Carvao">Carvao</option>
+                    <option value="Acessorio">Acessorio</option>
+                    <option value="Tabaco">Tabaco</option>
+                  </select>
+                </label>
+                <label><span>Marca</span><input type="text" id="productBrandInput" required /></label>
+                <label>
+                  <span>Fornecedor</span>
+                  <select id="productSupplierInput">
+                    <option value="">Sem fornecedor vinculado</option>
+                  </select>
+                </label>
+                <label><span>Preco de venda</span><input type="number" id="productPriceInput" min="0" step="0.01" required /></label>
+                <label><span>Custo</span><input type="number" id="productCostInput" min="0" step="0.01" required /></label>
+                <label><span>Quantidade atual</span><input type="number" id="productQuantityInput" min="0" required /></label>
+                <label><span>Estoque minimo</span><input type="number" id="productMinimumInput" min="0" required /></label>
+                <label><span>Data de validade</span><input type="date" id="productExpiryInput" /></label>
+                <label><span>NCM</span><input type="text" id="productNcmInput" placeholder="Ex: 22030000" /></label>
+                <label><span>CFOP</span><input type="text" id="productCfopInput" placeholder="Ex: 5102" /></label>
+                <label><span>CST/CSOSN</span><input type="text" id="productTaxCodeInput" placeholder="Ex: 060 ou 102" /></label>
+                <label><span>Aliquota estimada (%)</span><input type="number" id="productTaxRateInput" min="0" step="0.01" value="0" /></label>
+                <label>
+                  <span>Status</span>
+                  <select id="productStatusInput" required>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                  </select>
+                </label>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary-btn" id="productSubmitBtn">Salvar produto</button>
+                  <button type="button" class="secondary-btn" id="clearProductBtn">Limpar</button>
+                </div>
+              </form>
+
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Produto</th>
+                      <th>Fornecedor</th>
+                      <th>Categoria</th>
+                      <th>Estoque</th>
+                      <th>Validade</th>
+                      <th>Preco</th>
+                      <th>Status</th>
+                      <th>Acoes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="productsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" id="movementsView">
+            <div class="content-grid movement-grid">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Entrada e saida</p>
+                    <h3>Registrar movimentacao</h3>
+                  </div>
+                </div>
+
+                <form class="stack-form" id="movementForm">
+                  <label><span>Produto</span><select id="movementProductInput" required></select></label>
+                  <label>
+                    <span>Tipo</span>
+                    <select id="movementTypeInput" required>
+                      <option value="entrada">Entrada</option>
+                      <option value="saida">Saida</option>
+                      <option value="ajuste">Ajuste</option>
+                    </select>
+                  </label>
+                  <label><span>Quantidade</span><input type="number" id="movementQuantityInput" min="1" required /></label>
+                  <label><span>Observacao</span><textarea id="movementNoteInput" rows="4" placeholder="Ex: reposicao do fornecedor"></textarea></label>
+                  <button type="submit" class="primary-btn">Salvar movimentacao</button>
+                </form>
+
+                <div class="panel-divider"></div>
+
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Nota fiscal</p>
+                    <h3>Entrada por fornecedor</h3>
+                  </div>
+                </div>
+
+                <form class="stack-form" id="invoiceForm">
+                  <label>
+                    <span>Fornecedor</span>
+                    <select id="invoiceSupplierInput" required>
+                      <option value="">Selecione um fornecedor</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Numero da nota</span>
+                    <input type="text" id="invoiceNumberInput" placeholder="Ex: 000123" required />
+                  </label>
+                  <label>
+                    <span>Data de emissao</span>
+                    <input type="date" id="invoiceIssuedAtInput" required />
+                  </label>
+                  <label>
+                    <span>Observacao</span>
+                    <textarea id="invoiceNotesInput" rows="3" placeholder="Ex: compra de reposicao"></textarea>
+                  </label>
+                </form>
+
+                <form class="sale-builder" id="invoiceItemForm">
+                  <label>
+                    <span>Produto</span>
+                    <select id="invoiceProductInput"></select>
+                  </label>
+                  <label>
+                    <span>Quantidade</span>
+                    <input type="number" id="invoiceQuantityInput" min="1" value="1" />
+                  </label>
+                  <label>
+                    <span>Custo unitario</span>
+                    <input type="number" id="invoiceUnitCostInput" min="0" step="0.01" value="0" />
+                  </label>
+                  <button type="submit" class="secondary-btn">Adicionar item</button>
+                </form>
+
+                <div id="invoiceItemsList" class="list-stack compact-list"></div>
+                <div id="invoiceTotals" class="totals-box"></div>
+                <div class="form-actions">
+                  <button type="button" class="primary-btn" id="submitInvoiceBtn">Lancar nota</button>
+                  <button type="button" class="secondary-btn" id="clearInvoiceBtn">Limpar nota</button>
+                </div>
+
+                <div class="panel-divider"></div>
+
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Devolucao</p>
+                    <h3>Retorno ao fornecedor</h3>
+                  </div>
+                </div>
+
+                <form class="stack-form" id="supplierReturnForm">
+                  <label>
+                    <span>Fornecedor</span>
+                    <select id="supplierReturnSupplierInput" required>
+                      <option value="">Selecione um fornecedor</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Referencia</span>
+                    <input type="text" id="supplierReturnReferenceInput" placeholder="Ex: DEV-001" required />
+                  </label>
+                  <label>
+                    <span>Data da devolucao</span>
+                    <input type="date" id="supplierReturnDateInput" required />
+                  </label>
+                  <label>
+                    <span>Observacao</span>
+                    <textarea id="supplierReturnNotesInput" rows="3" placeholder="Ex: avaria ou validade"></textarea>
+                  </label>
+                </form>
+
+                <form class="sale-builder" id="supplierReturnItemForm">
+                  <label>
+                    <span>Produto</span>
+                    <select id="supplierReturnProductInput"></select>
+                  </label>
+                  <label>
+                    <span>Quantidade</span>
+                    <input type="number" id="supplierReturnQuantityInput" min="1" value="1" />
+                  </label>
+                  <label>
+                    <span>Custo unitario</span>
+                    <input type="number" id="supplierReturnUnitCostInput" min="0" step="0.01" value="0" />
+                  </label>
+                  <button type="submit" class="secondary-btn">Adicionar item</button>
+                </form>
+
+                <div id="supplierReturnItemsList" class="list-stack compact-list"></div>
+                <div id="supplierReturnTotals" class="totals-box"></div>
+                <div class="form-actions">
+                  <button type="button" class="primary-btn" id="submitSupplierReturnBtn">Lancar devolucao</button>
+                  <button type="button" class="secondary-btn" id="clearSupplierReturnBtn">Limpar devolucao</button>
+                </div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Historico</p>
+                    <h3>Movimentacoes cadastradas</h3>
+                  </div>
+                </div>
+                <div id="movementsHistory" class="list-stack"></div>
+
+                <div class="panel-divider"></div>
+
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Compras</p>
+                    <h3>Ultimas notas lancadas</h3>
+                  </div>
+                </div>
+                <div id="purchaseInvoicesHistory" class="list-stack"></div>
+
+                <div class="panel-divider"></div>
+
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Retornos</p>
+                    <h3>Ultimas devolucoes</h3>
+                  </div>
+                </div>
+                <div id="supplierReturnsHistory" class="list-stack"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" id="reportsView">
+            <div class="panel report-actions">
+              <div class="panel-header wrap">
+                <div>
+                  <p class="eyebrow">Relatorios e migracao</p>
+                  <h3>Analise operacional</h3>
+                </div>
+                <div class="form-actions">
+                  <button type="button" class="secondary-btn" id="exportExcelBtn">Exportar Excel</button>
+                  <button type="button" class="secondary-btn" id="exportPdfBtn">Exportar PDF</button>
+                  <button type="button" class="primary-btn" id="exportSupabaseBtn">Baixar SQL Supabase</button>
+                </div>
+              </div>
+
+              <form class="report-filters" id="reportFiltersForm">
+                <label>
+                  <span>Data inicial</span>
+                  <input type="date" id="reportStartDateInput" />
+                </label>
+                <label>
+                  <span>Data final</span>
+                  <input type="date" id="reportEndDateInput" />
+                </label>
+                <label>
+                  <span>Pagamento</span>
+                  <select id="reportPaymentFilter">
+                    <option value="">Todos</option>
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="pix">Pix</option>
+                    <option value="cartao">Cartao</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Canal</span>
+                  <select id="reportSaleChannelFilter">
+                    <option value="">Todos</option>
+                    <option value="fisica">Fisica</option>
+                    <option value="entrega">Entrega</option>
+                  </select>
+                </label>
+                <div class="form-actions">
+                  <button type="submit" class="primary-btn">Aplicar filtro</button>
+                  <button type="button" class="secondary-btn" id="resetReportFiltersBtn">Limpar filtro</button>
+                </div>
+              </form>
+              <p class="report-actions-copy" id="reportFilterSummary">
+                Visualizando todos os dados disponiveis para faturamento, lucro e vendas.
+              </p>
+            </div>
+
+            <div class="stats-grid" id="reportSummary"></div>
+            <div class="content-grid">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Desempenho</p>
+                    <h3>Produtos mais vendidos</h3>
+                  </div>
+                </div>
+                <div id="topProductsList" class="list-stack"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Financeiro</p>
+                    <h3>Vendas por pagamento</h3>
+                  </div>
+                </div>
+                <div id="paymentMethodsList" class="list-stack"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Operacao</p>
+                    <h3>Vendas por canal</h3>
+                  </div>
+                </div>
+                <div id="salesChannelsList" class="list-stack"></div>
+              </article>
+            </div>
+
+            <div class="content-grid">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Ultimas vendas</p>
+                    <h3>Resumo de pedidos</h3>
+                  </div>
+                </div>
+                <div id="reportRecentSales" class="list-stack"></div>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Estoque</p>
+                    <h3>Itens que merecem atencao</h3>
+                  </div>
+                </div>
+                <div id="stockSnapshotList" class="list-stack"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" id="suppliersView">
+            <div class="content-grid users-layout">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Compras</p>
+                    <h3>Cadastrar fornecedor</h3>
+                  </div>
+                </div>
+
+                <form class="stack-form" id="supplierForm">
+                  <input type="hidden" id="supplierIdInput" />
+                  <label>
+                    <span>Nome</span>
+                    <input type="text" id="supplierNameInput" required />
+                  </label>
+                  <label>
+                    <span>Documento</span>
+                    <input type="text" id="supplierDocumentInput" placeholder="CNPJ ou CPF" />
+                  </label>
+                  <label>
+                    <span>Contato</span>
+                    <input type="text" id="supplierContactInput" placeholder="Nome do contato" />
+                  </label>
+                  <label>
+                    <span>Telefone</span>
+                    <input type="text" id="supplierPhoneInput" placeholder="(00) 00000-0000" />
+                  </label>
+                  <label>
+                    <span>E-mail</span>
+                    <input type="email" id="supplierEmailInput" placeholder="contato@fornecedor.com" />
+                  </label>
+                  <label>
+                    <span>Status</span>
+                    <select id="supplierStatusInput" required>
+                      <option value="ativo">Ativo</option>
+                      <option value="inativo">Inativo</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Observacao</span>
+                    <textarea id="supplierNotesInput" rows="4" placeholder="Ex: prazo, condicao comercial, observacoes"></textarea>
+                  </label>
+                  <div class="form-actions">
+                    <button type="submit" class="primary-btn" id="supplierSubmitBtn">Salvar fornecedor</button>
+                    <button type="button" class="secondary-btn" id="clearSupplierBtn">Limpar</button>
+                  </div>
+                </form>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header wrap">
+                  <div>
+                    <p class="eyebrow">Base de compras</p>
+                    <h3>Fornecedores cadastrados</h3>
+                  </div>
+                  <div class="filters">
+                    <input type="search" id="supplierSearchInput" placeholder="Buscar fornecedor..." />
+                    <button type="button" class="secondary-btn" id="exportSuppliersCsvBtn">Exportar CSV</button>
+                  </div>
+                </div>
+
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Fornecedor</th>
+                        <th>Contato</th>
+                        <th>Documento</th>
+                        <th>Produtos</th>
+                        <th>Status</th>
+                        <th>Cadastro</th>
+                        <th>Acoes</th>
+                      </tr>
+                    </thead>
+                    <tbody id="suppliersTableBody"></tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" id="usersView">
+            <div class="content-grid users-layout">
+              <article class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Equipe</p>
+                    <h3>Cadastrar usuario</h3>
+                  </div>
+                </div>
+
+                <form class="stack-form" id="userForm">
+                  <input type="hidden" id="userIdInput" />
+                  <label>
+                    <span>Nome</span>
+                    <input type="text" id="userNameInput" required />
+                  </label>
+                  <label>
+                    <span>E-mail</span>
+                    <input type="email" id="userEmailInput" required />
+                  </label>
+                  <label>
+                    <span>Perfil</span>
+                    <select id="userRoleInput" required>
+                      <option value="admin">Admin</option>
+                      <option value="manager">Gerente</option>
+                      <option value="attendant">Atendente</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Status</span>
+                    <select id="userStatusInput" required>
+                      <option value="ativo">Ativo</option>
+                      <option value="inativo">Inativo</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Senha</span>
+                    <input type="password" id="userPasswordInput" placeholder="Preencha para criar ou trocar senha" />
+                  </label>
+                  <label>
+                    <span>Confirmar senha</span>
+                    <input type="password" id="userPasswordConfirmInput" placeholder="Repita a senha quando preencher acima" />
+                  </label>
+                  <p class="muted-note" id="userFormHint">
+                    Para editar sem trocar a senha, deixe os campos de senha em branco.
+                  </p>
+                  <div class="form-actions">
+                    <button type="submit" class="primary-btn" id="userSubmitBtn">Salvar usuario</button>
+                    <button type="button" class="secondary-btn" id="clearUserBtn">Limpar</button>
+                  </div>
+                </form>
+              </article>
+
+              <article class="panel">
+                <div class="panel-header wrap">
+                  <div>
+                    <p class="eyebrow">Controle de acesso</p>
+                    <h3>Usuarios cadastrados</h3>
+                  </div>
+                  <input type="search" id="userSearchInput" placeholder="Buscar usuario..." />
+                </div>
+
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Usuario</th>
+                        <th>Perfil</th>
+                        <th>Status</th>
+                        <th>Cadastro</th>
+                        <th>Acoes</th>
+                      </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
+          </section>
+        </main>
+      </section>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

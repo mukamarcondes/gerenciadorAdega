@@ -1,0 +1,53 @@
+﻿[
+    {
+        "id":  "a11989d3-90c0-4b78-830d-95d2df558d7e",
+        "name":  "Essência Double Apple",
+        "category":  "Essência",
+        "brand":  "Al Fakher",
+        "price":  32.9,
+        "cost":  20,
+        "quantity":  17,
+        "minimum":  8,
+        "expiryDate":  "2026-04-22",
+        "status":  "ativo",
+        "createdAt":  "2026-04-01T12:41:31.6886442Z"
+    },
+    {
+        "id":  "1acc8b1d-949f-4850-9353-46af304174da",
+        "name":  "Whisky Jack Daniel\u0027s 1L",
+        "category":  "Bebida",
+        "brand":  "Jack Daniel\u0027s",
+        "price":  149.9,
+        "cost":  112,
+        "quantity":  6,
+        "minimum":  4,
+        "expiryDate":  "2026-09-10",
+        "status":  "ativo",
+        "createdAt":  "2026-04-01T12:41:31.6886442Z"
+    },
+    {
+        "id":  "6f8d28ad-f4b2-41e5-99cf-9d4dc5d5778d",
+        "name":  "Carvão Coco Prime 1kg",
+        "category":  "Carvão",
+        "brand":  "Coco Prime",
+        "price":  24.9,
+        "cost":  14,
+        "quantity":  2,
+        "minimum":  5,
+        "expiryDate":  "2026-04-05",
+        "status":  "ativo",
+        "createdAt":  "2026-04-01T12:41:31.6886442Z"
+    },
+    {
+        "id":  "0279b1f9-38d7-4d60-8d9d-89666c61f263",
+        "name":  "Piteira Slim Gold",
+        "category":  "Acessório",
+        "brand":  "Style",
+        "price":  12,
+        "cost":  5,
+        "quantity":  14,
+        "minimum":  6,
+        "status":  "inativo",
+        "createdAt":  "2026-04-01T12:41:31.6886442Z"
+    }
+]

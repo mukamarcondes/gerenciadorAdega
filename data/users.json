@@ -1,0 +1,29 @@
+﻿[
+    {
+        "id":  "95e7d033-6e93-4ab5-a72d-9eca25c55efb",
+        "name":  "Administrador",
+        "createdAt":  "2026-04-01T12:41:31.4348016Z",
+        "email":  "admin@stylenarguille.com",
+        "role":  "admin",
+        "passwordHash":  "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "status":  "ativo"
+    },
+    {
+        "id":  "255ce7cd-09fd-410d-bbb4-1f5801f78df5",
+        "name":  "Marcondezz",
+        "createdAt":  "2026-04-01T15:35:44.7154945Z",
+        "email":  "mukasilva26@gmail.com",
+        "role":  "admin",
+        "passwordHash":  "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        "status":  "ativo"
+    },
+    {
+        "id":  "7cbef9e8-d7d6-4f0c-a0da-4ed887de68a7",
+        "name":  "Fabricio",
+        "createdAt":  "2026-04-01T17:50:59.9970894Z",
+        "email":  "fabricio@gmail.com",
+        "role":  "attendant",
+        "passwordHash":  "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        "status":  "ativo"
+    }
+]

@@ -1,0 +1,19 @@
+﻿{
+    "sessions":  [
+                     {
+                         "expectedBalance":  57.8,
+                         "id":  "ffe61ec2-2b17-4839-818a-ce2f113b1064",
+                         "difference":  null,
+                         "closeNote":  null,
+                         "openingAmount":  0,
+                         "actualClosingAmount":  null,
+                         "salesCount":  1,
+                         "closedAt":  null,
+                         "openedBy":  "Marcondezz",
+                         "salesTotal":  57.8,
+                         "note":  "",
+                         "closedBy":  null,
+                         "openedAt":  "2026-04-01T17:38:49.6003081Z"
+                     }
+                 ]
+}

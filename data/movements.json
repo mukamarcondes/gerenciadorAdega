@@ -1,0 +1,47 @@
+﻿[
+    {
+        "id":  "047e9717-9420-4747-80be-7408b18028e1",
+        "productId":  "6f8d28ad-f4b2-41e5-99cf-9d4dc5d5778d",
+        "createdAt":  "2026-04-01T17:42:05.3461100Z",
+        "quantity":  1,
+        "type":  "saida",
+        "note":  "Venda registrada",
+        "productName":  "Carvão Coco Prime 1kg"
+    },
+    {
+        "id":  "b0de46b1-be18-4c9c-a0cc-9a99a1b7babe",
+        "productId":  "a11989d3-90c0-4b78-830d-95d2df558d7e",
+        "createdAt":  "2026-04-01T17:42:05.3491089Z",
+        "quantity":  1,
+        "type":  "saida",
+        "note":  "Venda registrada",
+        "productName":  "Essência Double Apple"
+    },
+    {
+        "id":  "1a242e8d-3518-4f0d-87a0-75503151e340",
+        "productId":  "6f8d28ad-f4b2-41e5-99cf-9d4dc5d5778d",
+        "createdAt":  "2026-04-01T13:06:37.8235656Z",
+        "quantity":  1,
+        "type":  "saida",
+        "note":  "Venda registrada",
+        "productName":  "Carvão Coco Prime 1kg"
+    },
+    {
+        "id":  "bf711dc1-fe03-4896-bd90-8c7754fe63e1",
+        "productId":  "6f8d28ad-f4b2-41e5-99cf-9d4dc5d5778d",
+        "createdAt":  "2026-04-01T12:41:31.9264964Z",
+        "quantity":  2,
+        "type":  "saida",
+        "note":  "Venda no balcão",
+        "productName":  "Carvão Coco Prime 1kg"
+    },
+    {
+        "id":  "86bd4b3c-d908-484d-b5a6-9639d592ea77",
+        "productId":  "1acc8b1d-949f-4850-9353-46af304174da",
+        "createdAt":  "2026-03-31T12:41:31.9274957Z",
+        "quantity":  4,
+        "type":  "entrada",
+        "note":  "Reposição do fornecedor",
+        "productName":  "Whisky Jack Daniel\u0027s 1L"
+    }
+]
